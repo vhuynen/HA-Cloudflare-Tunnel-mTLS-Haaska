@@ -8,3 +8,11 @@ This post explains why I gave up the Tailscale tunnel and opted for the mTLS Clo
 ## Architecture
 
 ![architecture](./docs/Architecture-Cloudflared%20Tunnel.png)
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
