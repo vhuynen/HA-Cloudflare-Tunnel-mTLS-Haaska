@@ -15,12 +15,12 @@ This post explains why I gave up the Tailscale tunnel and opted for the mTLS Clo
 
 ![architecture](./docs/Architecture-Cloudflared%20Tunnel.png)
 
-Instead of opening my router to the Internet to allow my Haaska Lambda to reach my Home Assistant, I have protected my Home Assistant over the Internet with a third-party service, Cloudflare.
+Instead of opening my router to the Internet to allow my [Haaska](https://github.com/mike-grant/haaska/wiki) Lambda to reach my Home Assistant, I have protected my Home Assistant over the Internet with a third-party service, [Cloudflare](https://www.cloudflare.com/).
 Cloudflare provides an excellent tool that initiates a secure connection from your Home Assistant instance to Cloudflare’s global network. A daemon agent named cloudflared, installed and running from Home Assistant, establishes an authenticated secure communication with your Cloudflare tenant.
 On the Cloudflare side, we use the WAF (Web Application Firewall) to protect your endpoint from unexpected Internet traffic.
 Two rules have been implemented to reduce the attack surface:
 - First, a rule that accepts only requests from AWS’s Data Centers. In Europe, the Alexa Voice Service is hosted in Ireland.
-- Second, a rule that accepts only mTLS requests from a well-know client. In our case, the WAF accepts only TLS connections established with a trusted client certificate provided by the Lambda function.
+- Second, a rule that accepts only [mTLS](https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/) requests from a well-know client. In our case, the WAF accepts only TLS connections established with a trusted client certificate provided by the Lambda function.
 - On the Haaska side, the Lambda is set to establish an mTLS two-way communication with a trusted client certificate provided and accepted by Cloudflare.
   
 Right now, we have a nice explanation of what this architecture does. We are going to describe in detail all the steps we need to take to protect your Home Assistant from the Internet.
